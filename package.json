@@ -1,7 +1,7 @@
 {
   "name": "my-portfolio",
   "version": "0.1.0",
-   "homepage": "https://tgcjananga.github.io/my-portfolio",
+  "homepage": "https://tgcjananga.github.io",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
