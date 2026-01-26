@@ -1,0 +1,2 @@
+git run build
+ git push -f origin main:gh-pages
