@@ -77,7 +77,7 @@ export const projects = [
   },
   {
     title: 'iHeart – Heart Disease Prediction',
-    type: 'ML Project',
+    type: 'ML Group Project',
     status: 'Feb 2025 – Mar 2025',
     description: 'End-to-end MLOps pipeline with automated CI/CD, Flask web app, real-time inference, and interactive visualizations.',
     tech: ['Python', 'Flask', 'Azure ML', 'XGBoost', 'GitHub Actions'],
@@ -85,6 +85,17 @@ export const projects = [
     image: '/images/projects/iheart.jpg',
     gradient: 'from-red-600/20 to-rose-600/20',
     borderGradient: 'from-red-500 to-rose-500'
+  },
+  {
+    title: 'Deepfake Detector – AI-Powered Video Authentication',
+    type: 'Individual Deep Learning Project',
+    status: 'Jan 2025',
+    description: 'Chrome extension with Flask backend for real-time deepfake detection using multi-modal analysis (video + audio) and explainable AI visualizations.',
+    tech: ['TensorFlow', 'Xception CNN', 'LSTM', 'Flask', 'Chrome Extension', 'Grad-CAM', 'OpenCV'],
+    highlights: ['Multi-modal fusion (70% video, 30% audio)', 'Explainable AI with Grad-CAM heatmaps', 'Memory-optimized training pipeline'],
+    image: '/images/projects/deepfake-detector.jpg',
+    gradient: 'from-purple-600/20 to-indigo-600/20',
+    borderGradient: 'from-purple-500 to-indigo-500'
   }
 ];
 
