@@ -14,4 +14,4 @@ Step 4: Deploy to GitHub Pages
 npm run build
 git add build -f
 git commit -m "Update build"
-git subtree push --prefix build origin gh-pages
+git subtree push --prefix build origin gh-pages 
