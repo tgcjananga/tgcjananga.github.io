@@ -1,17 +1,17 @@
 npm run update
  
 OR
-  
+
 step1:
 git add .
 Step 2: Commit Changes
-bashgit commit -m "Description of what you changed"
+git commit -m "Description of what you changed"
 
 Step 3: Push to GitHub (Main Branch)
-bashgit push origin main
+git push origin main
 
 Step 4: Deploy to GitHub Pages
-bashnpm run build
+npm run build
 git add build -f
 git commit -m "Update build"
 git subtree push --prefix build origin gh-pages
