@@ -1,90 +1,128 @@
 // src/components/Contact.js
-import React from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Mail, Phone, Linkedin, MapPin, Copy, Check, ArrowUpRight, Send } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
 
-const Contact = () => {
+const cardClass =
+  'group relative flex h-full items-center gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 transition-colors duration-200 hover:border-cyan-500/50 hover:bg-slate-900';
+
+const IconTile = ({ icon: Icon }) => (
+  <div className="shrink-0 rounded-lg border border-cyan-500/30 bg-cyan-500/10 p-3 transition-colors duration-200 group-hover:bg-cyan-500/20">
+    <Icon className="text-cyan-400" size={22} aria-hidden="true" />
+  </div>
+);
+
+/** Whole card is clickable via a stretched link; extra controls sit above it with `relative z-10`. */
+const ContactCard = ({ icon, label, value, href, external, children }) => (
+  <div className={cardClass}>
+    <IconTile icon={icon} />
+    <div className="min-w-0 flex-1">
+      <p className="mb-0.5 text-sm text-slate-400">{label}</p>
+      <a
+        href={href}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className="block break-words font-semibold text-slate-100 transition-colors after:absolute after:inset-0 after:rounded-2xl after:content-[''] group-hover:text-cyan-300"
+      >
+        {value}
+      </a>
+    </div>
+    {children || (
+      <ArrowUpRight
+        size={20}
+        aria-hidden="true"
+        className="shrink-0 text-slate-500 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-400"
+      />
+    )}
+  </div>
+);
+
+const CopyButton = ({ text }) => {
+  const [status, setStatus] = useState('idle'); // idle | copied | failed
+  const timer = useRef(null);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus('copied');
+    } catch {
+      setStatus('failed');
+    }
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setStatus('idle'), 2000);
+  };
+
+  const label = status === 'copied' ? 'Copied!' : status === 'failed' ? 'Copy failed' : 'Copy email address';
+
   return (
-    <section id="contact" className="py-20 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 group">
-            <Mail className="inline mr-3 text-cyan-400 group-hover:rotate-12 transition-transform" size={36} />
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Get In Touch
-            </span>
-          </h2>
-          <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
-            I'm currently looking for opportunities in Software Engineering, ML, and Cloud Computing. 
-            Let's connect and build something amazing together!
-          </p>
-        </div>
-
-        {/* Contact Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
-          <a
-            href={`mailto:${personalInfo.email}`}
-            className="group flex items-center gap-4 p-6 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-2"
-          >
-            <div className="p-4 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-500/30 group-hover:scale-110 group-hover:rotate-12 transition-transform">
-              <Mail className="text-cyan-400" size={28} />
-            </div>
-            <div className="flex-1 text-left">
-              <div className="text-sm text-gray-400 mb-1">Email Address</div>
-              <div className="font-semibold text-gray-100 group-hover:text-cyan-400 transition-colors break-all">
-                {personalInfo.email}
-              </div>
-            </div>
-            <Send size={20} className="text-gray-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
-          </a>
-
-          <a
-            href={`tel:${personalInfo.phone}`}
-            className="group flex items-center gap-4 p-6 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-2"
-          >
-            <div className="p-4 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-500/30 group-hover:scale-110 group-hover:rotate-12 transition-transform">
-              <Phone className="text-cyan-400" size={28} />
-            </div>
-            <div className="flex-1 text-left">
-              <div className="text-sm text-gray-400 mb-1">Phone Number</div>
-              <div className="font-semibold text-gray-100 group-hover:text-cyan-400 transition-colors">
-                {personalInfo.phone}
-              </div>
-            </div>
-            <Send size={20} className="text-gray-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
-          </a>
-        </div>
-
-        {/* Location Info */}
-        <div className="text-center">
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700">
-            <MapPin size={18} className="text-cyan-400" />
-            <span className="text-gray-300">Based in Sri Lanka</span>
-          </div>
-        </div>
-
-        {/* Quick Message Section */}
-        <div className="mt-12 bg-gradient-to-br from-cyan-600/10 to-blue-600/10 backdrop-blur-sm rounded-xl p-8 border border-cyan-500/30">
-          <h3 className="text-2xl font-bold text-center mb-4 text-cyan-400">
-            Ready to Collaborate?
-          </h3>
-          <p className="text-center text-gray-400 mb-6">
-            Whether you have a project in mind, want to discuss opportunities, or just want to say hi, 
-            I'd love to hear from you!
-          </p>
-          <div className="flex justify-center">
-            <a
-              href={`mailto:${personalInfo.email}?subject=Let's Connect!`}
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 rounded-lg font-semibold transition-all shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1"
-            >
-              Send Message
-              <Send size={18} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+    <>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={label}
+        title={label}
+        className="relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-800 hover:text-cyan-400"
+      >
+        {status === 'copied' ? (
+          <Check size={20} className="text-emerald-400" aria-hidden="true" />
+        ) : (
+          <Copy size={20} aria-hidden="true" />
+        )}
+      </button>
+      <span role="status" aria-live="polite" className="sr-only">
+        {status === 'copied' ? 'Email address copied to clipboard' : status === 'failed' ? 'Could not copy email address' : ''}
+      </span>
+    </>
   );
 };
+
+const Contact = () => (
+  <section id="contact" className="px-4 py-20 md:py-28">
+    <div className="mx-auto max-w-5xl">
+      <SectionHeading
+        eyebrow="Contact"
+        title="Let's build something together"
+        subtitle="I'm currently looking for opportunities in Software Engineering, ML and Cloud Computing. Whether you have a role, a project or just want to say hi — my inbox is open."
+        icon={Mail}
+      />
+
+      <Reveal className="mb-10 flex flex-col items-center gap-4">
+        <a
+          href={`mailto:${personalInfo.email}?subject=${encodeURIComponent("Let's connect")}`}
+          className="group inline-flex h-12 items-center gap-2 rounded-lg bg-cyan-400 px-8 font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition-colors duration-200 hover:bg-cyan-300"
+        >
+          Say hello
+          <Send size={18} aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1" />
+        </a>
+        <p className="inline-flex items-center gap-2 text-sm text-slate-400">
+          <MapPin size={16} className="text-cyan-400" aria-hidden="true" />
+          Based in {personalInfo.location}
+        </p>
+      </Reveal>
+
+      <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+        <Reveal as="li" className="md:col-span-2 lg:col-span-1">
+          <ContactCard icon={Mail} label="Email" value={personalInfo.email} href={`mailto:${personalInfo.email}`}>
+            <CopyButton text={personalInfo.email} />
+          </ContactCard>
+        </Reveal>
+        <Reveal as="li" delay={0.08}>
+          <ContactCard
+            icon={Phone}
+            label="Phone"
+            value={personalInfo.phone}
+            href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`}
+          />
+        </Reveal>
+        <Reveal as="li" delay={0.16}>
+          <ContactCard icon={Linkedin} label="LinkedIn" value="Connect with me" href={personalInfo.linkedin} external />
+        </Reveal>
+      </ul>
+    </div>
+  </section>
+);
 
 export default Contact;

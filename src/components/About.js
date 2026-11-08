@@ -1,79 +1,84 @@
 // src/components/About.js
 import React from 'react';
-import { GraduationCap, Briefcase } from 'lucide-react';
+import { GraduationCap, Briefcase, User } from 'lucide-react';
 import { education, experience } from '../data/portfolioData';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
 
-const About = () => {
-  return (
-    <section id="about" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold mb-12 text-center group">
-          <GraduationCap className="inline mr-3 text-cyan-400 group-hover:rotate-12 transition-transform" size={36} />
-          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            About Me
-          </span>
-        </h2>
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Education Card */}
-          <div className="group bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-2">
-            <div className="flex items-center mb-6">
-              <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg border border-cyan-500/30">
-                <GraduationCap className="text-cyan-400" size={28} />
-              </div>
-              <h3 className="text-2xl font-semibold ml-4 text-cyan-400">Education</h3>
-            </div>
-            
-            <div className="space-y-6">
-              {education.map((edu, idx) => (
-                <div key={idx} className="pl-4 border-l-2 border-cyan-500/30 hover:border-cyan-500 transition-colors">
-                  <h4 className="font-semibold text-lg text-gray-100">{edu.degree}</h4>
-                  <p className="text-gray-400 mt-1">{edu.institution}</p>
-                  {edu.period && (
-                    <p className="text-gray-500 text-sm mt-1">{edu.period}</p>
-                  )}
-                  {edu.gpa && (
-                    <p className="text-cyan-400 text-sm mt-1 font-semibold">GPA: {edu.gpa}</p>
-                  )}
-                  {edu.achievement && (
-                    <p className="text-cyan-400 text-sm mt-1 font-semibold">{edu.achievement}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Experience Card */}
-          <div className="group bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-2">
-            <div className="flex items-center mb-6">
-              <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg border border-cyan-500/30">
-                <Briefcase className="text-cyan-400" size={28} />
-              </div>
-              <h3 className="text-2xl font-semibold ml-4 text-cyan-400">Experience</h3>
-            </div>
-            
-            {experience.map((exp, idx) => (
-              <div key={idx} className="pl-4 border-l-2 border-cyan-500/30 hover:border-cyan-500 transition-colors">
-                <h4 className="font-semibold text-lg text-gray-100">{exp.role}</h4>
-                <p className="text-gray-400 mt-1">{exp.organization}</p>
-                <p className="text-gray-500 text-sm mt-1 mb-3">{exp.period}</p>
-                <div className="flex flex-wrap gap-2">
-                  {exp.courses.map((course, i) => (
-                    <span 
-                      key={i} 
-                      className="text-xs px-3 py-1 bg-gradient-to-r from-gray-700 to-gray-600 rounded-full border border-gray-600 hover:border-cyan-500/50 transition-colors"
-                    >
-                      {course}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+const TimelineItem = ({ children }) => (
+  <li className="relative border-l-2 border-slate-800 pb-6 pl-6 last:pb-0">
+    <span
+      aria-hidden="true"
+      className="absolute -left-[7px] top-1.5 h-3 w-3 rounded-full border-2 border-cyan-400 bg-slate-950"
+    />
+    {children}
+  </li>
+);
+
+const Card = ({ icon: Icon, title, children }) => (
+  <div className="h-full rounded-2xl border border-slate-800 bg-slate-900/50 p-6 md:p-8">
+    <div className="mb-6 flex items-center gap-4">
+      <div className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 p-3">
+        <Icon className="text-cyan-400" size={24} aria-hidden="true" />
       </div>
-    </section>
-  );
-};
+      <h3 className="text-xl font-semibold text-slate-50 md:text-2xl">{title}</h3>
+    </div>
+    {children}
+  </div>
+);
+
+const About = () => (
+  <section id="about" className="px-4 py-20 md:py-28">
+    <div className="mx-auto max-w-6xl">
+      <SectionHeading eyebrow="About me" title="Education & experience" icon={User} />
+
+      <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+        <Reveal>
+          <Card icon={GraduationCap} title="Education">
+            <ol>
+              {education.map((edu) => (
+                <TimelineItem key={edu.degree}>
+                  <h4 className="text-lg font-semibold text-slate-100">{edu.degree}</h4>
+                  <p className="mt-1 text-slate-400">{edu.institution}</p>
+                  {edu.period && <p className="mt-1 font-mono text-sm text-slate-400">{edu.period}</p>}
+                  {(edu.gpa || edu.achievement) && (
+                    <p className="mt-3 inline-block rounded-md bg-cyan-500/10 px-2.5 py-1 text-sm font-semibold text-cyan-300">
+                      {edu.gpa ? `GPA ${edu.gpa}` : edu.achievement}
+                    </p>
+                  )}
+                </TimelineItem>
+              ))}
+            </ol>
+          </Card>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <Card icon={Briefcase} title="Experience">
+            <ol>
+              {experience.map((exp) => (
+                <TimelineItem key={exp.role}>
+                  <h4 className="text-lg font-semibold text-slate-100">{exp.role}</h4>
+                  <p className="mt-1 text-slate-400">{exp.organization}</p>
+                  <p className="mt-1 font-mono text-sm text-slate-400">{exp.period}</p>
+                  <p className="mb-2 mt-4 text-sm font-medium text-slate-300">Courses supported</p>
+                  <ul className="flex flex-wrap gap-2">
+                    {exp.courses.map((course) => (
+                      <li
+                        key={course}
+                        className="rounded-md border border-slate-700 bg-slate-800/70 px-2.5 py-1 text-sm text-slate-200"
+                      >
+                        {course}
+                      </li>
+                    ))}
+                  </ul>
+                </TimelineItem>
+              ))}
+            </ol>
+          </Card>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+);
 
 export default About;
