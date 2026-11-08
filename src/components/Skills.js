@@ -3,56 +3,49 @@ import React from 'react';
 import { Code } from 'lucide-react';
 import { skills } from '../data/portfolioData';
 import { getSkillIcon, getTechIcon } from '../utils/techIcons';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
 
-const Skills = () => {
-  return (
-    <section id="skills" className="py-20 px-4 bg-gray-800/30">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold mb-12 text-center group">
-          <Code className="inline mr-3 text-cyan-400 group-hover:rotate-12 transition-transform" size={36} />
-          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            Technical Skills
-          </span>
-        </h2>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(skills).map(([category, items]) => {
-            const CategoryIcon = getSkillIcon(category);
-            
-            return (
-              <div
-                key={category}
-                className="group bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-2"
-              >
-                <div className="flex items-center mb-4">
-                  <div className="p-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg border border-cyan-500/30 mr-3">
-                    <CategoryIcon className="text-cyan-400" size={20} />
+const Skills = () => (
+  <section id="skills" className="border-y border-slate-900 bg-slate-900/30 px-4 py-20 md:py-28">
+    <div className="mx-auto max-w-6xl">
+      <SectionHeading eyebrow="Toolbox" title="Technical skills" icon={Code} />
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {Object.entries(skills).map(([category, items], idx) => {
+          const CategoryIcon = getSkillIcon(category);
+
+          return (
+            <Reveal key={category} delay={(idx % 3) * 0.08}>
+              <div className="h-full rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 p-2">
+                    <CategoryIcon className="text-cyan-400" size={20} aria-hidden="true" />
                   </div>
-                  <h3 className="text-xl font-semibold text-cyan-400">{category}</h3>
+                  <h3 className="text-lg font-semibold text-slate-50">{category}</h3>
                 </div>
-                
-                <div className="flex flex-wrap gap-2">
-                  {items.map((skill, idx) => {
+
+                <ul className="flex flex-wrap gap-2">
+                  {items.map((skill) => {
                     const { icon: SkillIcon, color } = getTechIcon(skill);
-                    
                     return (
-                      <span
-                        key={idx}
-                        className="group/skill px-3 py-1.5 bg-gradient-to-r from-gray-700 to-gray-600 rounded-full text-sm hover:from-cyan-600 hover:to-blue-600 transition-all cursor-default border border-gray-600 hover:border-cyan-400 flex items-center gap-1.5"
+                      <li
+                        key={skill}
+                        className="flex items-center gap-1.5 rounded-md border border-slate-700/80 bg-slate-800/70 px-2.5 py-1.5 text-sm text-slate-200"
                       >
-                        <SkillIcon size={14} className={`${color} group-hover/skill:text-white transition-colors`} />
-                        <span className="group-hover/skill:text-white">{skill}</span>
-                      </span>
+                        <SkillIcon size={14} className={color} aria-hidden="true" />
+                        {skill}
+                      </li>
                     );
                   })}
-                </div>
+                </ul>
               </div>
-            );
-          })}
-        </div>
+            </Reveal>
+          );
+        })}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default Skills;

@@ -1,13 +1,16 @@
 // src/data/portfolioData.js
 export const personalInfo = {
   name: 'Chamuditha Jananga',
-  initials: 'Chamuditha Jananga',
+  initials: 'CJ',
   title: 'Software Engineer & DevOps Enthusiast',
   description: 'Final year Computer Engineering student specializing in Full-Stack Development, Cloud Computing, DevOps, and Machine Learning',
   email: 'e20158@eng.pdn.ac.lk',
   phone: '+94 712 283 012',
   github: 'https://github.com/tgcjananga',
-  linkedin: 'https://linkedin.com/in/chamuditha-jananga'
+  linkedin: 'https://linkedin.com/in/chamuditha-jananga',
+  location: 'Sri Lanka',
+  openToWork: true,
+  // resume: '/Chamuditha_Jananga_CV.pdf', // drop a PDF in /public and uncomment to show a "Résumé" button
 };
 
 export const education = [
@@ -41,6 +44,8 @@ export const skills = {
   'DevOps & Tools': ['Docker', 'Git', 'GitHub Actions', 'CI/CD', 'Kubernetes']
 };
 
+// Optional per-project links: add `github: 'https://...'` and/or `demo: 'https://...'`
+// to any project below and a link button appears on its card automatically.
 export const projects = [
   {
     title: 'Data-Driven Methods for Comparative Metagenomics',

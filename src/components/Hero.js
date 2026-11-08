@@ -1,87 +1,157 @@
 // src/components/Hero.js
-import React from 'react';
-import { Mail, Github, Linkedin, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { Mail, Github, Linkedin, ArrowRight, ChevronDown, FileText } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import { handleAnchorClick } from '../utils/scroll';
 
-const Hero = ({ scrollToSection }) => {
+const socialLinks = [
+  { label: 'GitHub', href: personalInfo.github, icon: Github, external: true },
+  { label: 'LinkedIn', href: personalInfo.linkedin, icon: Linkedin, external: true },
+  { label: 'Email', href: `mailto:${personalInfo.email}`, icon: Mail, external: false },
+];
+
+const Hero = () => {
+  const [avatarFailed, setAvatarFailed] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  // Staggered entrance for hero content
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: reduceMotion ? 0 : 0.08 } },
+  };
+  const item = reduceMotion
+    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, y: 16 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+      };
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center px-4 pt-16 relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+    <section
+      id="home"
+      className="relative flex min-h-svh items-center justify-center overflow-hidden px-4 pb-24 pt-28"
+    >
+      {/* Background */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="bg-dot-grid absolute inset-0" />
+        <div className="absolute left-1/4 top-1/4 h-72 w-72 animate-pulse rounded-full bg-blue-500/10 blur-3xl md:h-96 md:w-96" />
+        <div className="absolute bottom-1/4 right-1/4 h-72 w-72 animate-pulse rounded-full bg-cyan-500/10 blur-3xl [animation-delay:1s] md:h-96 md:w-96" />
       </div>
 
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        {/* Profile Avatar */}
-        <div className="mb-8 inline-block relative group">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-opacity"></div>
-          <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-cyan-500/50 shadow-2xl transform group-hover:scale-105 transition-transform">
-            <img 
-              src="/images/profile.jpg" 
-              alt={personalInfo.name}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.style.display = 'none';
-                e.target.parentElement.innerHTML = `<div class="w-full h-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-5xl font-bold">${personalInfo.initials}</div>`;
-              }}
-            />
+      <motion.div
+        className="relative z-10 mx-auto max-w-3xl text-center"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+        {/* Avatar */}
+        <motion.div variants={item} className="relative mb-8 inline-block">
+          <div aria-hidden="true" className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 opacity-60 blur-xl" />
+          <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-cyan-400/40 shadow-2xl md:h-36 md:w-36">
+            {avatarFailed ? (
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-500 to-cyan-500 font-mono text-4xl font-bold text-slate-950">
+                {personalInfo.initials}
+              </div>
+            ) : (
+              <img
+                src="/images/profile.jpg"
+                alt={`Portrait of ${personalInfo.name}`}
+                width="144"
+                height="144"
+                fetchPriority="high"
+                className="h-full w-full object-cover"
+                onError={() => setAvatarFailed(true)}
+              />
+            )}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Name with Gradient */}
-        <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent animate-fade-in">
-          {personalInfo.name}
-        </h1>
+        {/* Availability */}
+        {personalInfo.openToWork && (
+          <motion.p variants={item} className="mb-5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-300">
+              <span className="relative flex h-2 w-2" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+              Open to opportunities
+            </span>
+          </motion.p>
+        )}
 
-        {/* Title */}
-        <h2 className="text-2xl md:text-3xl text-gray-300 mb-6 font-light">
-          {personalInfo.title}
-        </h2>
-
-        {/* Description */}
-        <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-          {personalInfo.description}
-        </p>
-
-        {/* Social Links */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
-          <a 
-            href={personalInfo.github} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="group flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all shadow-lg hover:shadow-xl hover:shadow-gray-700/50 hover:-translate-y-1"
-          >
-            <Github size={20} className="group-hover:rotate-12 transition-transform" /> 
-            <span>GitHub</span>
-          </a>
-          <a 
-            href={personalInfo.linkedin} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all shadow-lg hover:shadow-xl hover:shadow-blue-600/50 hover:-translate-y-1"
-          >
-            <Linkedin size={20} className="group-hover:rotate-12 transition-transform" /> 
-            <span>LinkedIn</span>
-          </a>
-          <a 
-            href={`mailto:${personalInfo.email}`}
-            className="group flex items-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 rounded-lg transition-all shadow-lg hover:shadow-xl hover:shadow-cyan-600/50 hover:-translate-y-1"
-          >
-            <Mail size={20} className="group-hover:rotate-12 transition-transform" /> 
-            <span>Contact</span>
-          </a>
-        </div>
-
-        {/* CTA Button */}
-        <button
-          onClick={() => scrollToSection('projects')}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 rounded-lg font-semibold transition-all shadow-lg hover:shadow-cyan-500/50"
+        <motion.h1
+          variants={item}
+          className="mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text pb-1 text-4xl font-extrabold tracking-tight text-transparent sm:text-6xl md:text-7xl"
         >
-          View My Work 
-          <ChevronRight size={20} />
-        </button>
-      </div>
+          {personalInfo.name}
+        </motion.h1>
+
+        <motion.p variants={item} className="mb-6 text-xl font-medium text-slate-200 md:text-2xl">
+          {personalInfo.title}
+        </motion.p>
+
+        <motion.p variants={item} className="mx-auto mb-10 max-w-2xl text-base leading-relaxed text-slate-400 md:text-lg">
+          {personalInfo.description}
+        </motion.p>
+
+        {/* Primary + secondary CTA */}
+        <motion.div variants={item} className="mb-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a
+            href="#projects"
+            onClick={handleAnchorClick('projects')}
+            className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-cyan-400 px-7 font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition-colors duration-200 hover:bg-cyan-300 sm:w-auto"
+          >
+            View my work
+            <ArrowRight size={18} aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1" />
+          </a>
+          <a
+            href="#contact"
+            onClick={handleAnchorClick('contact')}
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-900/60 px-7 font-semibold text-slate-100 transition-colors duration-200 hover:border-slate-500 hover:bg-slate-800 sm:w-auto"
+          >
+            Get in touch
+          </a>
+          {personalInfo.resume && (
+            <a
+              href={personalInfo.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg px-5 font-semibold text-slate-300 transition-colors duration-200 hover:text-white sm:w-auto"
+            >
+              <FileText size={18} aria-hidden="true" />
+              Résumé
+            </a>
+          )}
+        </motion.div>
+
+        {/* Social icons */}
+        <motion.ul variants={item} className="flex items-center justify-center gap-2" aria-label="Social links">
+          {socialLinks.map(({ label, href, icon: Icon, external }) => (
+            <li key={label}>
+              <a
+                href={href}
+                aria-label={label}
+                title={label}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 transition-colors duration-200 hover:bg-slate-800 hover:text-cyan-400"
+              >
+                <Icon size={22} aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </motion.ul>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <a
+        href="#about"
+        onClick={handleAnchorClick('about')}
+        aria-label="Scroll to About section"
+        className="absolute bottom-6 left-1/2 hidden h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full text-slate-500 transition-colors hover:text-cyan-400 sm:inline-flex"
+      >
+        <ChevronDown size={26} aria-hidden="true" className="animate-bounce" />
+      </a>
     </section>
   );
 };
