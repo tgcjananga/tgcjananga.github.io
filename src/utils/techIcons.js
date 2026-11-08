@@ -1,5 +1,5 @@
 // src/utils/techIcons.js
-import { Code2, Database, Cloud, Server, GitBranch, Container } from 'lucide-react';
+import { Code2, Database, Cloud, Server, GitBranch, Container, Brain, Globe } from 'lucide-react';
 
 export const getTechIcon = (tech) => {
   const iconMap = {
@@ -27,6 +27,12 @@ export const getTechIcon = (tech) => {
     'UMAP': { icon: Code2, color: 'text-indigo-400' },
     'XGBoost': { icon: Code2, color: 'text-green-500' },
     'Azure ML': { icon: Cloud, color: 'text-blue-500' },
+    'TensorFlow': { icon: Brain, color: 'text-orange-400' },
+    'Xception CNN': { icon: Brain, color: 'text-violet-400' },
+    'LSTM': { icon: Brain, color: 'text-violet-400' },
+    'Grad-CAM': { icon: Brain, color: 'text-pink-400' },
+    'OpenCV': { icon: Code2, color: 'text-green-400' },
+    'Chrome Extension': { icon: Globe, color: 'text-yellow-400' },
     
     // Databases
     'MongoDB': { icon: Database, color: 'text-green-500' },
@@ -38,11 +44,13 @@ export const getTechIcon = (tech) => {
     'AWS EC2': { icon: Cloud, color: 'text-orange-500' },
     'AWS Lambda': { icon: Cloud, color: 'text-orange-500' },
     'IoT Core': { icon: Cloud, color: 'text-orange-500' },
+    'AWS IoT Core': { icon: Cloud, color: 'text-orange-500' },
+    'AWS LightSail': { icon: Cloud, color: 'text-orange-500' },
     
     // DevOps
     'Docker': { icon: Container, color: 'text-blue-500' },
     'Git': { icon: GitBranch, color: 'text-orange-600' },
-    'GitHub Actions': { icon: GitBranch, color: 'text-gray-800' },
+    'GitHub Actions': { icon: GitBranch, color: 'text-slate-300' },
     'CI/CD': { icon: GitBranch, color: 'text-green-500' },
     'Kubernetes': { icon: Container, color: 'text-blue-600' },
     
@@ -57,7 +65,7 @@ export const getSkillIcon = (category) => {
   const categoryIcons = {
     'Programming': Code2,
     'Web Development': Server,
-    'ML & Data Science': Code2,
+    'ML & Data Science': Brain,
     'Database & Cloud': Database,
     'DevOps & Tools': Container
   };
