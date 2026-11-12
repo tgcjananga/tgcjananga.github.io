@@ -1,9 +1,9 @@
-// src/components/Achievements.js
+// src/components/sections/Achievements.js
 import React from 'react';
 import { Award, Trophy, Medal } from 'lucide-react';
-import { achievements } from '../data/portfolioData';
-import SectionHeading from './SectionHeading';
-import Reveal from './Reveal';
+import { achievements } from '../../data/portfolioData';
+import SectionHeading from '../ui/SectionHeading';
+import Reveal from '../ui/Reveal';
 
 // Podium finishes get a trophy; selections/shortlists get a medal
 const getRankIcon = (title) => (/place/i.test(title) ? Trophy : Medal);

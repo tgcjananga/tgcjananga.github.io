@@ -1,4 +1,4 @@
-// src/components/SectionHeading.js
+// src/components/ui/SectionHeading.js
 import React from 'react';
 import Reveal from './Reveal';
 

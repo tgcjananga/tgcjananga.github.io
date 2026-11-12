@@ -1,9 +1,9 @@
-// src/components/Contact.js
+// src/components/sections/Contact.js
 import React, { useEffect, useRef, useState } from 'react';
 import { Mail, Phone, Linkedin, MapPin, Copy, Check, ArrowUpRight, Send } from 'lucide-react';
-import { personalInfo } from '../data/portfolioData';
-import SectionHeading from './SectionHeading';
-import Reveal from './Reveal';
+import { personalInfo } from '../../data/portfolioData';
+import SectionHeading from '../ui/SectionHeading';
+import Reveal from '../ui/Reveal';
 
 const cardClass =
   'group relative flex h-full items-center gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 transition-colors duration-200 hover:border-cyan-500/50 hover:bg-slate-900';

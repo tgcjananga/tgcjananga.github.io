@@ -1,9 +1,9 @@
-// src/components/Hero.js
+// src/components/sections/Hero.js
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Mail, Github, Linkedin, ArrowRight, ChevronDown, FileText } from 'lucide-react';
-import { personalInfo } from '../data/portfolioData';
-import { handleAnchorClick } from '../utils/scroll';
+import { personalInfo } from '../../data/portfolioData';
+import { handleAnchorClick } from '../../utils/scroll';
 
 const socialLinks = [
   { label: 'GitHub', href: personalInfo.github, icon: Github, external: true },

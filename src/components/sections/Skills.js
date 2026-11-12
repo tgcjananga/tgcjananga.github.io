@@ -1,10 +1,10 @@
-// src/components/Skills.js
+// src/components/sections/Skills.js
 import React from 'react';
 import { Code } from 'lucide-react';
-import { skills } from '../data/portfolioData';
-import { getSkillIcon, getTechIcon } from '../utils/techIcons';
-import SectionHeading from './SectionHeading';
-import Reveal from './Reveal';
+import { skills } from '../../data/portfolioData';
+import { getSkillIcon, getTechIcon } from '../../utils/techIcons';
+import SectionHeading from '../ui/SectionHeading';
+import Reveal from '../ui/Reveal';
 
 const Skills = () => (
   <section id="skills" className="border-y border-slate-900 bg-slate-900/30 px-4 py-20 md:py-28">

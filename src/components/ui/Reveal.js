@@ -1,4 +1,4 @@
-// src/components/Reveal.js
+// src/components/ui/Reveal.js
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 

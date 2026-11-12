@@ -1,9 +1,9 @@
-// src/components/Navbar.js
+// src/components/layout/Navbar.js
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { personalInfo } from '../data/portfolioData';
-import { scrollToSection } from '../utils/scroll';
+import { personalInfo } from '../../data/portfolioData';
+import { scrollToSection } from '../../utils/scroll';
 
 const NAV_ITEMS = ['home', 'about', 'skills', 'projects', 'achievements', 'contact'];
 

@@ -1,8 +1,8 @@
-// src/components/Footer.js
+// src/components/layout/Footer.js
 import React from 'react';
 import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
-import { personalInfo } from '../data/portfolioData';
-import { handleAnchorClick, scrollToSection } from '../utils/scroll';
+import { personalInfo } from '../../data/portfolioData';
+import { handleAnchorClick, scrollToSection } from '../../utils/scroll';
 
 const QUICK_LINKS = ['About', 'Skills', 'Projects', 'Achievements', 'Contact'];
 

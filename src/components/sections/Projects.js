@@ -1,10 +1,10 @@
-// src/components/Projects.js
+// src/components/sections/Projects.js
 import React, { useState } from 'react';
 import { FolderGit2, Check, CheckCircle2, CalendarDays, Github, ExternalLink, Code2 } from 'lucide-react';
-import { projects } from '../data/portfolioData';
-import { getTechIcon } from '../utils/techIcons';
-import SectionHeading from './SectionHeading';
-import Reveal from './Reveal';
+import { projects } from '../../data/portfolioData';
+import { getTechIcon } from '../../utils/techIcons';
+import SectionHeading from '../ui/SectionHeading';
+import Reveal from '../ui/Reveal';
 
 const StatusBadge = ({ status }) => {
   const base =

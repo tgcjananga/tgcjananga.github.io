@@ -1,9 +1,9 @@
-// src/components/About.js
+// src/components/sections/About.js
 import React from 'react';
 import { GraduationCap, Briefcase, User } from 'lucide-react';
-import { education, experience } from '../data/portfolioData';
-import SectionHeading from './SectionHeading';
-import Reveal from './Reveal';
+import { education, experience } from '../../data/portfolioData';
+import SectionHeading from '../ui/SectionHeading';
+import Reveal from '../ui/Reveal';
 
 const TimelineItem = ({ children }) => (
   <li className="relative border-l-2 border-slate-800 pb-6 pl-6 last:pb-0">
